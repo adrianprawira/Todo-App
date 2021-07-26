@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "969598269538",
+    "project_id": "muslimpedia-todo-project",
+    "storage_bucket": "muslimpedia-todo-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:969598269538:android:65a2219a5720d2b504f93b",
+        "android_client_info": {
+          "package_name": "com.manfredo.muslimpedia_todo_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "969598269538-o1kb4irakpiv7e1rdnahf37fkbq5o0g7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.manfredo.muslimpedia_todo_flutter",
+            "certificate_hash": "ea31081c0d668d646782199b7fc6b77be05cab5e"
+          }
+        },
+        {
+          "client_id": "969598269538-0ppt4p7mecgns5duniqr09vaphv8sjqf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxSAWH5SXAdUTAVXMOtzcSZMOLTBhmZNg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "969598269538-0ppt4p7mecgns5duniqr09vaphv8sjqf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
