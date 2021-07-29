@@ -5,7 +5,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:muslimpedia_todo_flutter/BLoC/database/database_bloc.dart';
 import 'package:muslimpedia_todo_flutter/model/database/task_model.dart';
-import 'package:muslimpedia_todo_flutter/utils/notification_services.dart';
 
 class TaskTile extends StatelessWidget {
   final Task task;

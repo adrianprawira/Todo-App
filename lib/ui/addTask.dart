@@ -2,6 +2,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:muslimpedia_todo_flutter/constants/const.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -14,7 +15,8 @@ import 'package:muslimpedia_todo_flutter/utils/geo_location.dart';
 import 'package:intl/intl.dart';
 import 'package:muslimpedia_todo_flutter/model/database/task_model.dart';
 
-FlutterLocalNotificationsPlugin notificationPlugin = FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin notificationPlugin =
+    FlutterLocalNotificationsPlugin();
 
 class AddTaskScreen extends StatefulWidget {
   @override
@@ -177,6 +179,19 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         );
 
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else if (_dateTime == null) {
+                        final snackBar = SnackBar(
+                          content: Text('Please set a task date & time'),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else if (!FormStructure.is5MinutesAhead(_dateTime)) {
+                        final snackBar = SnackBar(
+                          content: Text(
+                              'User must insert datetime at least 5 minutes ahead'),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
                         Task task = Task();
 
@@ -222,24 +237,26 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   void initializeNotification() async {
     var android = AndroidInitializationSettings('ic_launcher');
-      var initSetting = InitializationSettings(android: android);
-      await notificationPlugin.initialize(initSetting);
+    var initSetting = InitializationSettings(android: android);
+    await notificationPlugin.initialize(initSetting);
   }
 
   Future<void> showNotification(int id, String title, DateTime date) async {
     int id = 0;
     id++;
-      var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'Todo List', 'Todo List', 'Todo List Notification');
-      var notifDetails = NotificationDetails(android: androidPlatformChannelSpecifics);
+    var notifDetails =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
 
     notificationPlugin.zonedSchedule(
-      id,
-      title,
-      'U HAVE A TASK TO DO, MY FRIEND!',
-      tz.TZDateTime.from(_dateTime, tz.local).add(Duration(minutes: -5)),
-      notifDetails,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-      androidAllowWhileIdle: true);
+        id,
+        title,
+        'U HAVE A TASK TO DO, MY FRIEND!',
+        tz.TZDateTime.from(_dateTime, tz.local).add(Duration(minutes: -5)),
+        notifDetails,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        androidAllowWhileIdle: true);
   }
 }
