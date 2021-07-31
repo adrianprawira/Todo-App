@@ -1,6 +1,6 @@
 # Todo App
 
-This is flutter project for submission to Muslimpedia
+This is flutter project for submission to Masjidpedia
 
 ## Features
 
