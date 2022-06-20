@@ -7,14 +7,16 @@ class NotificationService {
   FlutterLocalNotificationsPlugin notificationPlugin =
       FlutterLocalNotificationsPlugin();
 
-  void initialize() async {
+  Future<bool?> initialize() async {
     var android = AndroidInitializationSettings('@mipmap/ic_launcher');
     var initSetting = InitializationSettings(android: android);
-    await notificationPlugin.initialize(initSetting);
+    return notificationPlugin.initialize(initSetting);
   }
 
   Future<void> setNotificationSchedule(
       int id, String? title, DateTime date) async {
+    await initialize();
+
     int _id = id;
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'Todo List', 'Todo List', 'Todo List Notification');

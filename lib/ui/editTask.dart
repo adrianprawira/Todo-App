@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../constants/const.dart';
+import '../utils/notification_services.dart';
+
 ///BloC
 import '../BLoC/database/database_bloc.dart';
 
@@ -18,6 +21,7 @@ class EditTaskScreen extends StatefulWidget {
 }
 
 class _EditTaskScreenState extends State<EditTaskScreen> {
+  var notifService = NotificationService();
   String? _priority;
   TextEditingController _titleController = TextEditingController(),
       _dateController = TextEditingController();
@@ -140,31 +144,56 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                   ),
                   SizedBox(height: 30),
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       final _title = _titleController.text;
                       final _date = _dateValue;
 
                       if (_title.trim().isEmpty) {
+                        final scaffoldMessenger = ScaffoldMessenger.of(context);
                         final snackBar = SnackBar(
                           content: Text('Please set a task title'),
+                          backgroundColor: Colors.red,
                         );
 
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      } else {
-                        Task task = Task.withID(
-                          id: _task.id,
-                          title: _title,
-                          date: _date,
-                          priority: _priority,
-                          location: _task.location,
-                          status: _task.status,
-                        );
-
-                        BlocProvider.of<DatabaseBloc>(context)
-                            .add(UpdateEvent(task: task));
-
-                        Navigator.pop(context, true);
+                        scaffoldMessenger.showSnackBar(snackBar);
+                        Future.delayed(Duration(milliseconds: 2500)).then(
+                            (value) => scaffoldMessenger.hideCurrentSnackBar());
                       }
+                      if (_date != _task.date) {
+                        if (!FormStructure.is5MinutesAhead(_date)) {
+                          final scaffoldMessenger =
+                              ScaffoldMessenger.of(context);
+                          final snackBar = SnackBar(
+                            content: Text(
+                                'User must insert datetime at least 5 minutes ahead'),
+                            backgroundColor: Colors.red,
+                          );
+
+                          scaffoldMessenger.showSnackBar(snackBar);
+                          Future.delayed(Duration(milliseconds: 2500)).then(
+                              (value) =>
+                                  scaffoldMessenger.hideCurrentSnackBar());
+                        }
+                        await notifService.setNotificationSchedule(
+                          _task.id ?? 0,
+                          _title,
+                          _date.subtract(
+                              Duration(minutes: 5, milliseconds: -500)),
+                        );
+                      }
+                      Task task = Task.withID(
+                        id: _task.id,
+                        title: _title,
+                        date: _date,
+                        priority: _priority,
+                        location: _task.location,
+                        status: _task.status,
+                      );
+
+                      BlocProvider.of<DatabaseBloc>(context)
+                          .add(UpdateEvent(task: task));
+
+                      Navigator.pop(context, true);
                     },
                     child: Container(
                       width: double.infinity,

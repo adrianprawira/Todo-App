@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
-    log(' ${bloc.runtimeType} $change');
+    log('${bloc.runtimeType} $change');
     super.onChange(bloc, change);
   }
 

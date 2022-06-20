@@ -33,7 +33,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     dbBloc = context.read<DatabaseBloc>();
     GetLocation.determinePos();
     super.initState();
-    notifService.initialize();
     tz.initializeTimeZones();
     _dateController.text = dateTimeFormat.format(_dateTime!);
   }
