@@ -13,11 +13,11 @@ class AuthenticationBloc
   final AuthenticationRepository _authenticationRepository;
 
   AuthenticationBloc({
-    @required AuthenticationRepository authenticationRepository,
+    required AuthenticationRepository authenticationRepository,
   })  : _authenticationRepository = authenticationRepository,
         super(AuthenticationInitial());
 
-  StreamSubscription<AuthenticationDetail> authStreamSub;
+  late StreamSubscription<AuthenticationDetail> authStreamSub;
 
   Future<void> close() {
     authStreamSub.cancel();
@@ -43,26 +43,27 @@ class AuthenticationBloc
             message: 'Error occrued while fetching auth detail');
       }
     } else if (event is AuthenticationStateChanged) {
-      if (event.authenticationDetail.isValid) {
+      if (event.authenticationDetail.isValid!) {
         yield AuthenticationSuccess(
             authenticationDetail: event.authenticationDetail);
       } else {
         yield AuthenticationFailure(message: 'User has logged out');
       }
-    } else if (event is AuthenticationGoogleStarted){
-        try {
-          yield AuthenticationLoading();
-          AuthenticationDetail authenticationDetail = await _authenticationRepository.authenticateWithGoogle();
+    } else if (event is AuthenticationGoogleStarted) {
+      try {
+        yield AuthenticationLoading();
+        AuthenticationDetail authenticationDetail =
+            await _authenticationRepository.authenticateWithGoogle();
 
-          if (authenticationDetail.isValid) {
-            yield AuthenticationSuccess(
+        if (authenticationDetail.isValid!) {
+          yield AuthenticationSuccess(
               authenticationDetail: authenticationDetail);
-          } else {
-            yield AuthenticationFailure(message: 'User detail not found.');
-          }
-        } catch (error) {
-          print('Error occured while login with Google ${error.toString()}');
-          yield AuthenticationFailure(
+        } else {
+          yield AuthenticationFailure(message: 'User detail not found.');
+        }
+      } catch (error) {
+        print('Error occured while login with Google ${error.toString()}');
+        yield AuthenticationFailure(
           message: 'Unable to login with Google. Try again.',
         );
       }

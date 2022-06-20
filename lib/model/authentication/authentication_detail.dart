@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 class AuthenticationDetail {
-  final bool isValid;
-  final String uid;
-  final String photoUrl;
-  final String email;
-  final String name;
+  final bool? isValid;
+  final String? uid;
+  final String? photoUrl;
+  final String? email;
+  final String? name;
 
   AuthenticationDetail({
     this.isValid,
@@ -16,11 +16,11 @@ class AuthenticationDetail {
   });
 
   AuthenticationDetail copyWith({
-    bool isValid,
-    String uid,
-    String photoUrl,
-    String email,
-    String name,
+    bool? isValid,
+    String? uid,
+    String? photoUrl,
+    String? email,
+    String? name,
   }) {
     return AuthenticationDetail(
       isValid: isValid ?? this.isValid,

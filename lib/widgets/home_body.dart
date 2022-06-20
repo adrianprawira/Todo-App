@@ -1,14 +1,16 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:muslimpedia_todo_flutter/constants/const.dart';
-import 'package:muslimpedia_todo_flutter/model/authentication/authentication_detail.dart';
-import 'package:muslimpedia_todo_flutter/widgets/task_tile.dart';
+
+import '../constants/const.dart';
+import '../model/authentication/authentication_detail.dart';
+import '../model/database/task_model.dart';
+
+import 'task_tile.dart';
 
 class HomePageBody extends StatelessWidget {
-  final taskList, authDetail;
+  final List<Task>? taskList;
+  final AuthenticationDetail authDetail;
 
-  HomePageBody({@required this.taskList, @required this.authDetail});
+  HomePageBody({required this.taskList, required this.authDetail});
 
   getCompletedTaskCount(List tasks) {
     return tasks.where((task) => task.status == 1).toList().length;
@@ -21,26 +23,28 @@ class HomePageBody extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 25),
-          child: Text("${authDetail.name}'s Tasks List",
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: aPrimaryColorLightest),
+          child: Text(
+            "${authDetail.name}'s Tasks List",
+            style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: aPrimaryColorLightest),
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
+        SizedBox(height: 10),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 25),
           child: Text(
-            '${getCompletedTaskCount(taskList)} of ${taskList.length}',
+            '${getCompletedTaskCount(taskList!)} of ${taskList!.length}',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
         ),
         Expanded(
           child: ListView.builder(
-            itemCount: taskList.length,
+            itemCount: taskList!.length,
             itemBuilder: (context, index) {
               return TaskTile(
-                task: taskList[index],
+                task: taskList![index],
               );
             },
           ),

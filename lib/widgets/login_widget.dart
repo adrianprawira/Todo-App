@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:muslimpedia_todo_flutter/widgets/sign_in_button.dart';
 
 import 'background_painter.dart';
+import 'sign_in_button.dart';
 
 class LoginWidget extends StatelessWidget {
   @override

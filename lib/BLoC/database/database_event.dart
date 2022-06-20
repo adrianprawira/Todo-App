@@ -4,20 +4,22 @@ abstract class DatabaseEvent {}
 
 class InitEvent extends DatabaseEvent {}
 
+class GetTaskEvent extends DatabaseEvent {}
+
 class InsertEvent extends DatabaseEvent {
   Task task;
 
-  InsertEvent({@required this.task});
+  InsertEvent({required this.task});
 }
 
 class UpdateEvent extends DatabaseEvent {
   Task task;
 
-  UpdateEvent({@required this.task});
+  UpdateEvent({required this.task});
 }
 
 class DeleteEvent extends DatabaseEvent {
   Task task;
 
-  DeleteEvent({@required this.task});
+  DeleteEvent({required this.task});
 }

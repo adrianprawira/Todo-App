@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:muslimpedia_todo_flutter/BLoC/authentication/authentication_bloc.dart';
-import 'package:muslimpedia_todo_flutter/ui/home.dart';
-import 'package:muslimpedia_todo_flutter/widgets/login_widget.dart';
+
+import '../BLoC/authentication/authentication_bloc.dart';
+import '../widgets/login_widget.dart';
+
+import 'home.dart';
 
 class LoginPage extends StatelessWidget {
   @override

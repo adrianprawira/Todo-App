@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:muslimpedia_todo_flutter/model/database/task_model.dart';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'task_model.dart';
+
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._instance();
-  Database _db;
+  Database? _db;
 
   DatabaseHelper._instance();
 
@@ -18,7 +20,7 @@ class DatabaseHelper {
   String _colLoc = 'location';
   String _colStatus = 'status';
 
-  Future<Database> get db async {
+  Future<Database?> get db async {
     if (_db == null) {
       _db = await _initDB();
     }
@@ -47,33 +49,40 @@ class DatabaseHelper {
         )''');
   }
 
-  Future<List<Task>> getTaskList() async {
+  Future<List<Task>?> getTaskList() async {
     final List<Task> tasksList = [];
 
-    Database db = await this.db;
+    Database? db = await this.db;
+
+    if (db == null) return null;
 
     final List taskMapList = await db.query(_taskTable);
     taskMapList.forEach((taskMap) {
       tasksList.add(Task.fromMap(taskMap));
     });
-    tasksList.sort((taskA, taskB) => taskA.status.compareTo(taskB.status));
+    tasksList.sort((taskA, taskB) => taskA.status!.compareTo(taskB.status!));
     return tasksList;
   }
 
   Future insertTask(Task task) async {
-    Database db = await this.db;
+    Database? db = await this.db;
 
-    final result = await db.insert(_taskTable, task.toMap());
+    if (db == null) return;
+
+    final result =
+        await db.insert(_taskTable, task.toMap() as Map<String, Object?>);
 
     return result;
   }
 
   Future updateTask(Task task) async {
-    Database db = await this.db;
+    Database? db = await this.db;
+
+    if (db == null) return;
 
     final result = await db.update(
       _taskTable,
-      task.toMap(),
+      task.toMap() as Map<String, Object?>,
       where: '$_colId = ?',
       whereArgs: [task.id],
     );
@@ -81,8 +90,11 @@ class DatabaseHelper {
     return result;
   }
 
-  Future deleteTask(int id) async {
-    Database db = await this.db;
+  Future deleteTask(int? id) async {
+    Database? db = await this.db;
+
+    if (db == null) return;
+
     final result =
         await db.delete(_taskTable, where: '$_colId = ?', whereArgs: [id]);
 

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:muslimpedia_todo_flutter/model/database/database_helper.dart';
 import 'package:muslimpedia_todo_flutter/model/database/task_model.dart';
 
@@ -19,22 +18,41 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
 
     if (event is InitEvent) {
       yield DatabaseLoadingState();
+
       final taskList = await _dataBase.getTaskList();
+      if (taskList == null) yield DatabaseStateFailure();
+
+      yield DatabaseLoadedState(taskList: taskList);
+    } else if (event is GetTaskEvent) {
+      yield DatabaseLoadingState();
+
+      final taskList = await _dataBase.getTaskList();
+      if (taskList == null) yield DatabaseStateFailure();
+
       yield DatabaseLoadedState(taskList: taskList);
     } else if (event is InsertEvent) {
-      _dataBase.insertTask(event.task);
+      final res = await _dataBase.insertTask(event.task);
+      if (res == null) yield DatabaseStateFailure();
 
       final taskList = await _dataBase.getTaskList();
+      if (taskList == null) yield DatabaseStateFailure();
+
       yield DatabaseLoadedState(taskList: taskList);
     } else if (event is UpdateEvent) {
-      _dataBase.updateTask(event.task);
+      final res = await _dataBase.updateTask(event.task);
+      if (res == null) yield DatabaseStateFailure();
 
       final taskList = await _dataBase.getTaskList();
+      if (taskList == null) yield DatabaseStateFailure();
+
       yield DatabaseLoadedState(taskList: taskList);
     } else if (event is DeleteEvent) {
-      _dataBase.deleteTask(event.task.id);
+      final res = await _dataBase.deleteTask(event.task.id);
+      if (res == null) yield DatabaseStateFailure();
 
       final taskList = await _dataBase.getTaskList();
+      if (taskList == null) yield DatabaseStateFailure();
+
       yield DatabaseLoadedState(taskList: taskList);
     }
   }

@@ -1,7 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:muslimpedia_todo_flutter/constants/const.dart';
+
+import '../constants/const.dart';
 
 
 class CircularBackgroundPainter extends CustomPainter {

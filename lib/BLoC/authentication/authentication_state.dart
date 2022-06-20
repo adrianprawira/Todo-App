@@ -12,7 +12,7 @@ class AuthenticationFailure extends AuthenticationState {
 
   final String message;
   AuthenticationFailure({
-    @required this.message,
+    required this.message,
   });
 
   @override
@@ -22,7 +22,7 @@ class AuthenticationFailure extends AuthenticationState {
 class AuthenticationSuccess extends AuthenticationState {
    final AuthenticationDetail authenticationDetail;
   AuthenticationSuccess({
-    @required this.authenticationDetail
+    required this.authenticationDetail
   });
 
   List<Object> get props => [authenticationDetail];

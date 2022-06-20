@@ -1,12 +1,10 @@
-import 'package:flutter/material.dart';
-
 class Task {
-  int id;
-  String title;
-  DateTime date;
-  String priority;
-  String location;
-  int status;
+  int? id;
+  String? title;
+  DateTime? date;
+  String? priority;
+  String? location;
+  int? status;
 
   Task({this.title, this.date, this.priority, this.location, this.status});
   Task.withID({this.id, this.title, this.date, this.priority, this.location, this.status});
@@ -20,7 +18,7 @@ class Task {
     }
 
     map["title"] = title;
-    map["date"] = date.toIso8601String();
+    map["date"] = date!.toIso8601String();
     map["priority"] = priority;
     map["location"] = location;
     map["status"] = status;
